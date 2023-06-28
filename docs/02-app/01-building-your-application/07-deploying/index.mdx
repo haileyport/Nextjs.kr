@@ -1,64 +1,64 @@
 ---
-title: 배포하기
-description: Vercel이 관리하는 환경 또는 직접 호스팅하는 운영 환경에 Next.js 앱을 배포하는 방법을 배우세요.
+title: Deploying
+description: Learn how to deploy your Next.js app to production, either managed or self-hosted.
 ---
 
-축하합니다! Next.js 앱을 배포할 준비가 끝났습니다. 이 페이지에서는 [Next.js 빌드 API](#nextjs-빌드-api)를 사용하여 Vercel이 관리하는 환경 또는 직접 호스팅하는 환경에 배포하는 방법을 다룹니다.
+Congratulations! You're here because you are ready to deploy your Next.js application. This page will show how to deploy either managed or self-hosted using the [Next.js Build API](#nextjs-build-api).
 
-## Next.js 빌드 API
+## Next.js Build API
 
-`next build` 명령어는 운영 환경을 위한 최적화한 버전을 생성합니다. 결과물은 아래와 같은 항목을 포함합니다.
+`next build` generates an optimized version of your application for production. This standard output includes:
 
-- `getStaticProps` 또는 [정적파일 최적화](/docs/pages/building-your-application/rendering/automatic-static-optimization)로 생성한 페이지들을 위한 HTML 파일
-- 일부 범위 또는 글로벌에서 사용하는 스타일을 위한 CSS 파일
-- Next.js 서버에서 동적인 콘텐츠를 프리 렌더링하기 위한 JavaScript 파일
-- 클라이언트에서 리액트 반응성 주입을 위한 JavaScript 파일
+- HTML files for pages using `getStaticProps` or [Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization)
+- CSS files for global styles or for individually scoped styles
+- JavaScript for pre-rendering dynamic content from the Next.js server
+- JavaScript for interactivity on the client-side through React
 
-`.next` 폴더 안에 결과물을 생성합니다.
+This output is generated inside the `.next` folder:
 
-- `.next/static/chunks/pages` – 이 폴더 안에는 같은 이름의 라우트와 관계가 있는 JavaScript 파일이 있습니다. 예를 들어서 `.next/static/chunks/pages/about.js` 파일은 `/about` 페이지에 접근할 때 로드합니다.
-- `.next/static/media` – `next/image` 컴포넌트에서 정적으로 임포트해서 사용한 이미지의 이름에 해시값을 추가한 복사본이 있습니다.
-- `.next/static/css` – 모든 페이지를 위한 글로벌 CSS 파일이 있습니다.
-- `.next/server/pages` – Next.js 서버에서 프리 렌더링하기 위한 HTML과 JavaScript의 진입점인 파일이 있습니다. [결과물 파일 추적](/docs/pages/api-reference/next-config-js/output) 기능을 활성화했을 때, 페이지와 관련 있는 모든 파일의 경로를 포함하고 있는 `.nft.json`으로 끝나는 파일을 생성합니다.
-- `.next/server/chunks` – 다양한 페이지에서 공유하는 JavaScript 청크 파일이 있습니다.
-- `.next/cache` – Next.js 서버에서 만드는 캐시, 캐시 한 이미지, 응답, 그리고 페이지들의 결과물이 있습니다. 캐시가 있음으로써 빌드 시간을 줄여주고, 이미지를 불러오는 데 필요한 성능을 개선합니다.
+- `.next/static/chunks/pages` – Each JavaScript file inside this folder relates to the route with the same name. For example, `.next/static/chunks/pages/about.js` would be the JavaScript file loaded when viewing the `/about` route in your application
+- `.next/static/media` – Statically imported images from `next/image` are hashed and copied here
+- `.next/static/css` – Global CSS files for all pages in your application
+- `.next/server/pages` – The HTML and JavaScript entry points prerendered from the server. The `.nft.json` files are created when [Output File Tracing](/docs/pages/api-reference/next-config-js/output) is enabled and contain all the file paths that depend on a given page.
+- `.next/server/chunks` – Shared JavaScript chunks used in multiple places throughout your application
+- `.next/cache` – Output for the build cache and cached images, responses, and pages from the Next.js server. Using a cache helps decrease build times and improve performance of loading images
 
-`.next` 폴더에 있는 모든 JavaScript는 **컴파일되어 있고** 브라우저에서 사용하는 번들도 **압축되어 있어서** 가장 좋은 성능을 낼 수 있게 해주고, [모든 모던 브라우저](/docs/architecture/supported-browsers)를 지원합니다.
+All JavaScript code inside `.next` has been **compiled** and browser bundles have been **minified** to help achieve the best performance and support [all modern browsers](/docs/architecture/supported-browsers).
 
-## Vercel에서 관리하는 Next.js
+## Managed Next.js with Vercel
 
-[Vercel](https://vercel.com?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)은 설정 없이 Next.js를 가장 빠르게 배포하는 방법입니다.
+[Vercel](https://vercel.com?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) is the fastest way to deploy your Next.js application with zero configuration.
 
-Vercel으로 배포한다면, [Next.js를 자동으로 감지](https://vercel.com/solutions/nextjs?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)하여 `next build` 명령을 실행하고, 빌드 결과물을 최적화합니다.
+When deploying to Vercel, the platform [automatically detects Next.js](https://vercel.com/solutions/nextjs?utm_source=next-site&utm_medium=docs&utm_campaign=next-website), runs `next build`, and optimizes the build output for you, including:
 
-- 변경이 없다면 배포와 배포 사이의 정적파일을 지속적으로 캐시 합니다.
-- 모든 커밋은 중복 없는 URL로 [영구적으로 배포](https://vercel.com/features/previews?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)가 됩니다.
-- [페이지](/docs/pages/building-your-application/rendering/automatic-static-optimization)는 자동으로 정적으로 최적화할 수 있다면 최적화합니다.
-- 정적파일(JavaScript, CSS, 이미지, 폰트)은 [글로벌 엣지 네트워크](https://vercel.com/features/infrastructure?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)를 통해 압축하여 호스팅합니다.
-- [API 라우트](/docs/pages/building-your-application/routing/api-routes)는 무한히 확장이 가능한 격리된 [서버리스 함수](https://vercel.com/features/infrastructure?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)로 자동으로 최적화합니다.₩₩
-- [미들웨어](/docs/pages/building-your-application/routing/middleware)는 콜드 스타트 없이 즉시 부팅하는 [엣지 함수](https://vercel.com/features/edge-functions?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)로 자동 최적화합니다.
+- Persisting cached assets across deployments if unchanged
+- [Immutable deployments](https://vercel.com/features/previews?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) with a unique URL for every commit
+- [Pages](/docs/pages/building-your-application/rendering/automatic-static-optimization) are automatically statically optimized, if possible
+- Assets (JavaScript, CSS, images, fonts) are compressed and served from a [Global Edge Network](https://vercel.com/features/infrastructure?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)
+- [API Routes](/docs/pages/building-your-application/routing/api-routes) are automatically optimized as isolated [Serverless Functions](https://vercel.com/features/infrastructure?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) that can scale infinitely
+- [Middleware](/docs/pages/building-your-application/routing/middleware) is automatically optimized as [Edge Functions](https://vercel.com/features/edge-functions?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) that have zero cold starts and boot instantly
 
-Vercel은 아래와 같은 기능을 추가로 제공합니다.
+In addition, Vercel provides features like:
 
-- [Next.js Speed Insights](https://vercel.com/analytics?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)을 사용한 성능 모니터링
-- HTTPS와 SSL 인증서
-- CI/CD 연동(GitHub, GitLab, Bitbucket, etc.)
-- [환경 변수](https://vercel.com/docs/environment-variables?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) 지원
-- [커스텀 도메인](https://vercel.com/docs/custom-domains?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) 지원
-- `next/image` 컴포넌트를 사용한 [이미지 최적화](/docs/pages/building-your-application/optimizing/images) 지원
-- `git push`를 통한 즉각적인 글로벌 배포
+- Automatic performance monitoring with [Next.js Speed Insights](https://vercel.com/analytics?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)
+- Automatic HTTPS and SSL certificates
+- Automatic CI/CD (through GitHub, GitLab, Bitbucket, etc.)
+- Support for [Environment Variables](https://vercel.com/docs/environment-variables?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)
+- Support for [Custom Domains](https://vercel.com/docs/custom-domains?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)
+- Support for [Image Optimization](/docs/pages/building-your-application/optimizing/images) with `next/image`
+- Instant global deployments via `git push`
 
-[Vercel에 Next.js 애플리케이션 배포](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/hello-world&project-name=hello-world&repository-name=hello-world&utm_source=next-site&utm_medium=docs&utm_campaign=next-website)를 무료로 해보세요.
+[Deploy a Next.js application to Vercel](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/hello-world&project-name=hello-world&repository-name=hello-world&utm_source=next-site&utm_medium=docs&utm_campaign=next-website) for free to try it out.
 
-## 직접 호스팅
+## Self-Hosting
 
-도커나 Node.js를 사용하여 Next.js의 모든 기능을 직접 호스팅할 수 있습니다. [일부 제약이 있는](/docs/app/building-your-application/deploying/static-exports) 정적 HTML 추출도 가능합니다.
+You can self-host Next.js with support for all features using Node.js or Docker. You can also do a Static HTML Export, which [has some limitations](/docs/app/building-your-application/deploying/static-exports).
 
-### Node.js 서버
+### Node.js Server
 
-Node.js를 지원하는 모든 호스팅 서비스를 통해 배포할 수 있습니다. 예시 [AWS EC2](https://aws.amazon.com/ec2/), [DigitalOcean Droplet](https://www.digitalocean.com/products/droplets/)
+Next.js can be deployed to any hosting provider that supports Node.js. For example, [AWS EC2](https://aws.amazon.com/ec2/) or a [DigitalOcean Droplet](https://www.digitalocean.com/products/droplets/).
 
-먼저, `package.json` 안에 `"build"`와 `"start"` 스크립트가 있어야 합니다.
+First, ensure your `package.json` has the `"build"` and `"start"` scripts:
 
 ```json filename="package.json"
 {
@@ -70,30 +70,30 @@ Node.js를 지원하는 모든 호스팅 서비스를 통해 배포할 수 있�
 }
 ```
 
-그리고 애플리케이션을 빌드하기 위해 `npm run build` 명령을 실행하세요. 마지막으로 Node.js 서버를 시작하기 위해 `npm run start` 명령을 실행하세요. 이 서버는 Next.js의 모든 기능을 지원합니다.
+Then, run `npm run build` to build your application. Finally, run `npm run start` to start the Node.js server. This server supports all features of Next.js.
 
-> [`next/image`](/docs/pages/building-your-application/optimizing/images) 컴포넌트를 사용한다면, 운영 환경에서 [이미지 최적화](/docs/pages/building-your-application/optimizing/images)를 더 효율적으로 하기 위해서 프로젝트 폴더에서 `npm install sharp` 명령을 실행하여 `sharp`를 설치하는 것을 고려하세요. 리눅스 플랫폼을 사용한다면, 지나친 메모리 사용을 막기 위해서 `sharp`의 [추가 설정](https://sharp.pixelplumbing.com/install#linux-memory-allocator)이 필요할 수 있습니다.
+> If you are using [`next/image`](/docs/pages/building-your-application/optimizing/images), consider adding `sharp` for more performant [Image Optimization](/docs/pages/building-your-application/optimizing/images) in your production environment by running `npm install sharp` in your project directory. On Linux platforms, `sharp` may require [additional configuration](https://sharp.pixelplumbing.com/install#linux-memory-allocator) to prevent excessive memory usage.
 
-### 도커 이미지
+### Docker Image
 
-Next.js는 [도커](https://www.docker.com/) 컨테이너를 지원하는 모든 호스팅 서비스를 통해 배포할 수 있습니다. 이 방식을 사용하여 [Kubernetes](https://kubernetes.io/), [HashiCorp Nomad](https://www.nomadproject.io/) 같은 컨테이너 오케스트레이터, 또는 모든 클라우드 서비스에서 싱글 노드로 실행하고 있는 경우에도 배포할 수 있습니다.
+Next.js can be deployed to any hosting provider that supports [Docker](https://www.docker.com/) containers. You can use this approach when deploying to container orchestrators such as [Kubernetes](https://kubernetes.io/) or [HashiCorp Nomad](https://www.nomadproject.io/), or when running inside a single node in any cloud provider.
 
-1. 장비에 [도커를 설치하세요](https://docs.docker.com/get-docker/).
-1. [with-docker](https://github.com/vercel/next.js/tree/canary/examples/with-docker) 예제를 복사하세요.
-1. `docker build -t nextjs-docker .` 명령어로 이미지를 빌드하세요.
-1. `docker run -p 3000:3000 nextjs-docker` 명령어로 컨테이너를 실행하세요.
+1. [Install Docker](https://docs.docker.com/get-docker/) on your machine
+1. Clone the [with-docker](https://github.com/vercel/next.js/tree/canary/examples/with-docker) example
+1. Build your container: `docker build -t nextjs-docker .`
+1. Run your container: `docker run -p 3000:3000 nextjs-docker`
 
-여러 환경에서 다른 환경변수를 사용해야 한다면, [with-docker-multi-env](https://github.com/vercel/next.js/tree/canary/examples/with-docker-multi-env) 예제를 확인하세요.
+If you need to use different Environment Variables across multiple environments, check out our [with-docker-multi-env](https://github.com/vercel/next.js/tree/canary/examples/with-docker-multi-env) example.
 
-### 정적 HTML 추출
+### Static HTML Export
 
-Next.js 애플리케이션의 정적 HTML 추출을 하고 싶다면, [정적 HTML 추출 문서](/docs/app/building-your-application/deploying/static-exports) 안의 지시를 따르세요.
+If you’d like to do a static HTML export of your Next.js app, follow the directions on our [Static HTML Export documentation](/docs/app/building-your-application/deploying/static-exports).
 
-## 다른 서비스
+## Other Services
 
-아래 서비스들은 Next.js `v12 이상`을 지원합니다. 각 서비스에 Next.js를 배포하는 방법이나 예제를 아래에서 찾을 수 있습니다.
+The following services support Next.js `v12+`. Below, you’ll find examples or guides to deploy Next.js to each service.
 
-### 관리형 서버
+### Managed Server
 
 - [AWS Copilot](https://aws.github.io/copilot-cli/)
 - [Digital Ocean App Platform](https://docs.digitalocean.com/tutorials/app-nextjs-deploy/)
@@ -102,17 +102,17 @@ Next.js 애플리케이션의 정적 HTML 추출을 하고 싶다면, [정적 HT
 - [Railway](https://docs.railway.app/getting-started)
 - [Render](https://render.com/docs/deploy-nextjs-app)
 
-> **참고**: [위의 예제](#도커-이미지)에서 다룬 Dockerfile을 사용할 수 있는 관리형 플랫폼들입니다.
+> **Good to know**: There are also managed platforms that allow you to use a Dockerfile as shown in the [example above](#docker-image).
 
-### 정적 배포
+### Static Only
 
-아래의 서비스는 Next.js의 [`output: 'export'`](/docs/app/building-your-application/deploying/static-exports) 옵션을 설정했을 때 사용할 수 있습니다.
+The following services only support deploying Next.js using [`output: 'export'`](/docs/app/building-your-application/deploying/static-exports).
 
 - [GitHub Pages](https://github.com/vercel/next.js/tree/canary/examples/github-pages)
 
-GitHub Actions, Jenkins, AWS CodeBuild, Circle CI, Azure Pipelines와 같은 CI/CD 파이프라인을 통해 [`output: 'export'`](/docs/app/building-your-application/deploying/static-exports) 옵션을 사용한 결과물을 모든 정적 배포 호스팅 서비스에 직접 배포할 수 있습니다.
+You can also manually deploy the output from [`output: 'export'`](/docs/app/building-your-application/deploying/static-exports) to any static hosting provider, often through your CI/CD pipeline like GitHub Actions, Jenkins, AWS CodeBuild, Circle CI, Azure Pipelines, and more.
 
-### 서버리스
+### Serverless
 
 - [AWS Amplify](https://aws.amazon.com/blogs/mobile/amplify-next-js-13/)
 - [Azure Static Web Apps](https://learn.microsoft.com/en-us/azure/static-web-apps/nextjs)
@@ -122,23 +122,23 @@ GitHub Actions, Jenkins, AWS CodeBuild, Circle CI, Azure Pipelines와 같은 CI/
 - [Terraform](https://github.com/milliHQ/terraform-aws-next-js)
 - [SST](https://docs.sst.dev/start/nextjs)
 
-> **참고**: 모든 서버리스 서비스에서 [Next.js 빌드 API](#nextjs-빌드-api)의 `next start`를 구현하지 않았습니다. 서비스에서 어떤 기능을 제공하고 있는지 확인하세요.
+> **Good to know**: Not all serverless providers implement the [Next.js Build API](#nextjs-build-api) from `next start`. Please check with the provider to see what features are supported.
 
-## 자동 업데이트
+## Automatic Updates
 
-Next.js 애플리케이션을 배포할 때, 리로드하지 않고 최신 버전을 보고 싶어 할 것입니다.
+When you deploy your Next.js application, you want to see the latest version without needing to reload.
 
-Next.js는 페이지를 이동이 있을 때 백그라운드에서 애플리케이션의 최신버전을 자동으로 로드합니다. 클라이언트 사이드 이동인 경우 `next/link` 컴포넌트는 일시적으로 평범한 `<a>` 태그처럼 동작합니다.
+Next.js will automatically load the latest version of your application in the background when routing. For client-side navigations, `next/link` will temporarily function as a normal `<a>` tag.
 
-> **참고**: `next/link` 컴포넌트에 의해서 새로운 페이지(구버전 포함)를 이미 prefetch 했다면, Next.js는 구버전을 사용합니다. prefetch _하지 않은_ (그리고 CDN에 캐시가 없는) 페이지로 이동한다면 최신 버전을 로드합니다.
+> **Good to know**: If a new page (with an old version) has already been prefetched by `next/link`, Next.js will use the old version. Navigating to a page that has _not_ been prefetched (and is not cached at the CDN level) will load the latest version.
 
-## 직접 우아하게 종료하기
+## Manual Graceful shutdowns
 
-직접 호스팅했을 때, `SIGTERM` 또는 `SIGINT` 시그널을 받아서 서버를 종료할 때 특정 코드를 실행하고 싶을 겁니다.
+When self-hosting, you might want to run code when the server shuts down on `SIGTERM` or `SIGINT` signals.
 
-`NEXT_MANUAL_SIG_HANDLE` 환경 변수를 `true`로 설정하고 `_document.js` 파일 안에 원하는 시그널 핸들러를 등록하면 가능합니다. 그 환경 변수를 `.env` 파일이 아닌, `package.json` 파일의 scripts에 직접 등록해야 합니다.
+You can set the env variable `NEXT_MANUAL_SIG_HANDLE` to `true` and then register a handler for that signal inside your `_document.js` file. You will need to register the env variable directly in the `package.json` script, not in the `.env` file.
 
-> **참고**: `next dev` 명령어에서는 직접 시그널을 처리할 수 없습니다.
+> **Good to know**: Manual signal handling is not available in `next dev`.
 
 ```json filename="package.json"
 {
@@ -152,7 +152,7 @@ Next.js는 페이지를 이동이 있을 때 백그라운드에서 애플리케�
 
 ```js filename="pages/_document.js"
 if (process.env.NEXT_MANUAL_SIG_HANDLE) {
-  // 커스텀 _document.js 파일에 추가해야 합니다.
+  // this should be added in your custom _document
   process.on('SIGTERM', () => {
     console.log('Received SIGTERM: ', 'cleaning up')
     process.exit(0)

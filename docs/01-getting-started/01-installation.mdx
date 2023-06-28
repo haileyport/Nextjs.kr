@@ -1,30 +1,29 @@
 ---
-title: 설치
-description: `create-next-app`을 사용하여 새로운 Next.js 애플리케이션을 생성합니다. Typescript, 스타일을 설정하고 `next.config.js` 파일을 구성합니다.
+title: Installation
+description: Create a new Next.js application with `create-next-app`. Set up TypeScript, styles, and configure your `next.config.js` file.
 related:
-  title: 다음 단계
-  description: 다음에 수행할 작업에 대한 자세한 내용은 다음 섹션을 참조하십시오.
+  title: Next Steps
+  description: For more information on what to do next, we recommend the following sections
   links:
     - getting-started/react-essentials
     - app/building-your-application
     - app/building-your-application/configuring/typescript
 ---
 
-시스템 요구사항:
+System Requirements:
 
-- [Node.js 16.8](https://nodejs.org/) 이상
-- macOS, Windows (WSL 포함) 및 Linux를 지원합니다.
+- [Node.js 16.8](https://nodejs.org/) or later.
+- macOS, Windows (including WSL), and Linux are supported.
 
-## 자동 설치
+## Automatic Installation
 
-모든 것을 자동으로 설정하는 `create-next-app`를 사용해 새로운 Next.js 앱을 생성하는 것이 좋습니다.  
-프로젝트를 생성하기 위해 아래의 명령어를 실행합니다.
+We recommend creating a new Next.js app using `create-next-app`, which sets up everything automatically for you. To create a project, run:
 
 ```bash filename="Terminal"
 npx create-next-app@latest
 ```
 
-설치 시 다음과 같은 메시지가 표시됩니다.
+On installation, you'll see the following prompts:
 
 ```txt filename="Terminal"
 What is your project named? my-app
@@ -36,22 +35,21 @@ Use App Router (recommended)? No / Yes
 Would you like to customize the default import alias? No / Yes
 ```
 
-이제 Next.js는 TypeScript, ESLint 및 Tailwind CSS 구성을 기본적으로 제공합니다.  
-또한, 애플리케이션 코드에 `src` 폴더를 사용하도록 선택할 수 있습니다.
+Next.js now ships with TypeScript, ESLint, and Tailwind CSS configuration by default. You can also choose to use the `src` directory for your application code.
 
-프롬프트가 표시되면, `create-next-app`은 프로젝트 이름으로 폴더를 생성하고 필요한 종속성을 설치합니다.
+After the prompts, `create-next-app` will create a folder with your project name and install the required dependencies.
 
-> **참고**: 새 프로젝트에서 [Pages Router](/docs/pages)를 사용할 수 있지만, React의 최신 기능을 활용하려면 App Router로 새로운 애플리케이션을 시작하는 것이 좋습니다.
+> **Good to know**: While you can use the [Pages Router](/docs/pages) in your new project. We recommend starting new applications with the App Router to leverage React's latest features.
 
-## 수동 설치
+## Manual Installation
 
-Next.js 앱을 수동으로 설치하려면, 필요한 패키지를 설치해야 합니다.
+To manually create a new Next.js app, install the required packages:
 
 ```bash filename="Terminal"
 npm install next@latest react@latest react-dom@latest
 ```
 
-`package.json`을 열고, 아래와 같은 `scripts`를 추가합니다.
+Open `package.json` and add the following `scripts`:
 
 ```json filename="package.json"
 {
@@ -64,16 +62,16 @@ npm install next@latest react@latest react-dom@latest
 }
 ```
 
-이 script는 애플리케이션을 개발하는 다양한 단계를 가리킵니다.
+These scripts refer to the different stages of developing an application:
 
-- `dev`: [`next dev`](/docs/app/api-reference/next-cli#development)를 실행하여 Next.js를 개발 모드로 시작합니다.
-- `build`: [`next build`](/docs/app/api-reference/next-cli#build)를 실행하여 프로덕션용으로 애플리케이션을 빌드합니다.
-- `start`: runs [`next start`](/docs/app/api-reference/next-cli#production)를 실행하여 Next.js 프로덕션 서버를 시작합니다.
-- `lint`: [`next lint`](/docs/app/api-reference/next-cli#lint)를 실행하여 Next.js의 기본 제공 ESLint 구성을 설정합니다.
+- `dev`: runs [`next dev`](/docs/app/api-reference/next-cli#development) to start Next.js in development mode.
+- `build`: runs [`next build`](/docs/app/api-reference/next-cli#build) to build the application for production usage.
+- `start`: runs [`next start`](/docs/app/api-reference/next-cli#production) to start a Next.js production server.
+- `lint`: runs [`next lint`](/docs/app/api-reference/next-cli#lint) to set up Next.js' built-in ESLint configuration.
 
-### `app` 폴더 생성
+### Create the `app` folder
 
-다음으로, `app` 폴더를 생성하고 `layout.tsx` 및 `page.tsx` 파일을 추가합니다. 추가한 파일은 사용자가 애플리케이션의 루트를 방문할 때 렌더링 됩니다.
+Next, create an `app` folder and add a `layout.tsx` and `page.tsx` file. These will be rendered when the user visits the root of your application.
 
 <Image
   alt="App Folder Structure"
@@ -83,7 +81,7 @@ npm install next@latest react@latest react-dom@latest
   height="363"
 />
 
-필수적으로 `<html>`와 `<body>` 태그를 사용하여 `app/layout.tsx` 내에 [root layout](/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required)을 생성합니다.
+Create a [root layout](/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required) inside `app/layout.tsx` with the required `<html>` and `<body>` tags:
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -109,7 +107,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-마지막으로 몇 가지 초기 콘텐츠로 홈페이지 `app/page.tsx`를 생성합니다.
+Finally, create a home page `app/page.tsx` with some initial content:
 
 ```tsx filename="app/page.tsx" switcher
 export default function Page() {
@@ -123,14 +121,14 @@ export default function Page() {
 }
 ```
 
-> **참고**: `layout.tsx`를 생성하는 것을 잊어버린 경우, `next dev` 명령어로 개발 서버를 실행할 때 Next.js가 이 파일을 자동으로 생성합니다.
+> **Good to know**: If you forget to create `layout.tsx`, Next.js will automatically create this file for you when running the development server with `next dev`.
 
-### `public` 폴더 생성
+### Create the `public` folder
 
-선택적으로 이미지, 글꼴과 같은 정적 자산을 저장하는 `public` 폴더를 생성할 수 있습니다. `public` 폴더에 있는 파일은 기본 URL(`/`)에서 시작하는 코드로 참조할 수 있습니다.
+You can optionally create a `public` folder to store static assets such as images, fonts, etc. Files inside `public` directory can then be referenced by your code starting from the base URL (`/`).
 
-## 개발 서버 실행
+## Run the Development Server
 
-1. `npm run dev`를 실행하여 개발 서버를 실행합니다.
-2. `http://localhost:3000`를 방문하여 애플리케이션을 확인합니다.
-3. `app/layout.tsx` 또는 `app/page.tsx`를 편집하고 저장하면 브라우저에서 업데이트된 결과를 확인할 수 있습니다.
+1. Run `npm run dev` to start the development server.
+2. Visit `http://localhost:3000` to view your application.
+3. Edit `app/layout.tsx` or `app/page.tsx` and save to see the updated result in your browser.
